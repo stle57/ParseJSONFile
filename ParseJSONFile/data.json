@@ -1,0 +1,10 @@
+{ "date":"2015-04-14T22:22:00Z", "calorie":"3012.0", "distance":"43.3", "duration":"200.8",
+    "activities":[
+                  {"date":"2015-04-11T11:22:00Z", "equipmentId":"9", "workoutName":"ARC TRAINER", "calorie":"444.0", "duration":29.6, "distance":3.1},
+                  {"date":"2015-04-13T22:22:00Z", "equipmentId":"9", "workoutName":"ARC TRAINER", "calorie":"390.0", "duration":26.0, "distance":3.1},
+                  {"date":"2015-04-14T22:22:00Z", "equipmentId":"9", "workoutName":"ARC TRAINER", "calorie":"388.5", "duration":25.9, "distance":3.1},
+                  {"date":"2015-04-14T10:11:00Z", "equipmentId":"1", "workoutName":"SUPER TREADMILL", "calorie":"393.0", "duration":26.2, "distance":4.0},
+                  {"date":"2015-04-14T10:09:00Z", "equipmentId":"2", "workoutName":"ELIPTICAL", "calorie":"946.5", "duration":63.1, "distance":10.0},
+                  {"date":"2015-04-14T22:51:00Z", "equipmentId":"0", "workoutName":"Treadmill walking", "calorie":"450.0", "duration":30.0, "distance":20.0}
+                  ]
+}
