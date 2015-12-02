@@ -29,6 +29,9 @@
     return date;        
 }
 
+//
+// Returns a string with the date
+//
 - (NSString*)getDate:(NSDate*)fullDate {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
@@ -39,6 +42,35 @@
     return theDate;
 }
 
+//
+// Convert the values to the correct units
+// Converting miles to meters
+// Converting minutes to seconds
+//
+//
+- (NSMutableArray*)convertUnits:(NSArray*)data {
+    NSMutableArray * newData = [data mutableCopy];
+
+    for (id eachResult in data) {
+      double duration = [[eachResult objectForKey:@"duration_in_seconds"] floatValue];
+        duration =  duration * 60;
+        NSLog(@"new duration value = %f", duration);
+        double distance = [[eachResult objectForKey:@"distance_in_meters"] floatValue];
+        distance = distance * 1609.34;
+
+        NSDictionary * newResults =
+        @{@"energy_in_calories" : eachResult[@"energy_in_calories"],
+          @"duration_in_seconds": [[NSNumber numberWithFloat:duration] stringValue],
+          @"distance_in_meters": [[NSNumber numberWithFloat:distance] stringValue],
+          @"date": eachResult[@"completed_at"]};
+
+        [newData removeObject:eachResult];
+        [newData addObject:newResults];
+
+    }
+
+    return newData;
+}
 
 //
 //  Parse the JSON Data, and find the values that have the same day.
@@ -79,9 +111,10 @@
                     for (id eachResult in copyResults) {
                         NSString *resultDate = [self getDate:[self dateWithJSONString:[eachResult objectForKey:@"completed_at"]]];
                         if ([resultDate isEqualToString:theDate]) {
-                            NSInteger sumCalories =[data[@"calorie"] intValue] + [[eachResult objectForKey:@"energy_in_calories"] intValue];
-                            NSInteger sumDistance = [data[@"distance"] intValue] + [[eachResult objectForKey:@"distance_in_meters"] intValue];
-                            NSInteger sumDuration = [data[@"duration"] intValue] + [[eachResult objectForKey:@"duration_in_seconds"] intValue];
+                            double sumCalories =[data[@"calorie"] floatValue] + [[eachResult objectForKey:@"energy_in_calories"] floatValue];
+                            double sumDistance = ([data[@"distance"] floatValue] + [[eachResult objectForKey:@"distance_in_meters"] floatValue]);
+                            double sumDuration = [data[@"duration"] floatValue] + [[eachResult objectForKey:@"duration_in_seconds"] floatValue];
+
                             newResults =
                                 @{@"energy_in_calories" : [[NSNumber numberWithInteger:sumCalories] stringValue],
                                                          @"duration_in_seconds": [[NSNumber numberWithInteger:sumDuration] stringValue],
@@ -110,7 +143,9 @@
         NSLog(@"data is nil");
     }
 
-    return results;
+    NSMutableArray * convertedResults = [self convertUnits:results];
+
+    return convertedResults;
 }
 
 @end
